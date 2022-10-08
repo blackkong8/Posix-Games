@@ -125,7 +125,7 @@ int main()
             Player.y += Force.y;
 
             Player.x = Player.x % World.width ? Player.x : 1;
-            Player.y %= World.height;
+            Player.y = Player.y % World.height ? Player.y : 1;
             break;
 
         case 'q':
