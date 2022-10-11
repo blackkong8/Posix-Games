@@ -86,7 +86,7 @@ int main()
     World.buffer = (char *)malloc(sizeof(char) * World.size);
     memset(World.buffer, ' ', World.size);
 
-    Player = (struct vector2){1, 1};
+    Player = (struct vector2){1, 0};
 
     printf("\x1b[2J");
 
