@@ -161,6 +161,8 @@ int main()
         printf("\r\nx: %03d y: %03d", Player.x, Player.y);
     }
 
+    printf("\x1b[H");
+
     RawMode(Disable);
 
     return 0;
