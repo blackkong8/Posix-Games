@@ -76,10 +76,12 @@ void RawMode(state State)
 
 int main()
 {
+    int x, y;
+
     isGameRun = True;
 
     World.width = 10;
-    World.height = 10;
+    World.height = 20;
     World.size = World.width * World.height;
     World.buffer = (char *)malloc(sizeof(char) * World.size);
     memset(World.buffer, ' ', World.size);
@@ -121,11 +123,22 @@ int main()
             break;
 
         case '\0':
+            x = Player.x;
+            y = Player.y;
+
             Player.x += Force.x;
             Player.y += Force.y;
 
-            Player.x = Player.x % World.width ? Player.x : 1;
-            Player.y = Player.y % World.height ? Player.y : 1;
+            if (!(1 <= Player.x && Player.x < World.width))
+            {
+                Player.x = x;
+            }
+
+            if (!(0 <= Player.y && Player.y < World.height))
+            {
+                Player.y = y;
+            }
+
             break;
 
         case 'q':
@@ -145,6 +158,7 @@ int main()
             else
                 printf("\r\n");
         }
+        printf("\r\nx: %03d y: %03d", Player.x, Player.y);
     }
 
     RawMode(Disable);
