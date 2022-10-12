@@ -84,7 +84,7 @@ int main()
     World.height = 20;
     World.size = World.width * World.height;
     World.buffer = (char *)malloc(sizeof(char) * World.size);
-    memset(World.buffer, ' ', World.size);
+    memset(World.buffer, 0, World.size);
 
     Player = (struct vector2){1, 0};
 
@@ -95,7 +95,7 @@ int main()
     while (isGameRun)
     {
         printf("\x1b[H");
-        memset(World.buffer, ' ', World.size);
+        memset(World.buffer, 0, World.size);
 
         char c = '\0';
         read(STDIN_FILENO, &c, 1);
@@ -149,12 +149,24 @@ int main()
             break;
         }
 
-        World.buffer[Player.y * World.width + Player.x] = '@';
+        World.buffer[Player.y * World.width + Player.x] = -1;
 
         for (int i = 0; i < World.size; i++)
         {
             if (i % World.width)
-                putchar(World.buffer[i]);
+            {
+                switch (World.buffer[i])
+                {
+                case -1:
+                    putchar('@');
+                    break;
+                case 0:
+                    putchar(' ');
+                    break;
+                default:
+                    break;
+                }
+            }
             else
                 printf("\r\n");
         }
