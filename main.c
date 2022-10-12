@@ -95,7 +95,7 @@ int main()
     while (isGameRun)
     {
         printf("\x1b[H");
-        memset(World.buffer, 0, World.size);
+        //memset(World.buffer, 0, World.size);
 
         char c = '\0';
         read(STDIN_FILENO, &c, 1);
@@ -159,11 +159,14 @@ int main()
                 {
                 case -1:
                     putchar('@');
+                    World.buffer[i] = 5;
                     break;
                 case 0:
                     putchar(' ');
                     break;
                 default:
+                    putchar('*');
+                    World.buffer[i]--;
                     break;
                 }
             }
