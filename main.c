@@ -80,6 +80,8 @@ int main()
 
     isGameRun = True;
 
+    int score = 0;
+
     World.width = 20;
     World.height = 20;
     World.size = World.width * World.height;
@@ -187,6 +189,8 @@ int main()
     }
 
     // printf("\x1b[H");
+
+    printf("Score:\t%d", score);
 
     RawMode(Disable);
 
