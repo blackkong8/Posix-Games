@@ -64,7 +64,7 @@ void RawMode(state State)
             ISIG     // Disable Ctrl-C, Ctrl-Z
         );
         raw.c_cc[VMIN] = 0;
-        raw.c_cc[VTIME] = 1;
+        raw.c_cc[VTIME] = 2;
 
         tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
         break;
