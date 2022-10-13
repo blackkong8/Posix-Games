@@ -188,7 +188,7 @@ int main()
 
     printf("\x1b[H");
 
-    printf("Score:\t%d", score);
+    printf("Score:\t%d\n", score);
 
     RawMode(Disable);
 
