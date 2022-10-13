@@ -156,7 +156,6 @@ int main()
         }
         else
         {
-            printf("Break! %d", World.buffer[Player.y * World.width + Player.x]);
             isGameRun = False;
             break;
         }
@@ -176,7 +175,6 @@ int main()
                     putchar(' ');
                     break;
                 default:
-                    // printf("%d", i);
                     putchar('*');
                     World.buffer[i]--;
                     break;
@@ -188,7 +186,7 @@ int main()
         printf("\r\nx: %03d y: %03d", Player.x, Player.y);
     }
 
-    // printf("\x1b[H");
+    printf("\x1b[H");
 
     printf("Score:\t%d", score);
 
