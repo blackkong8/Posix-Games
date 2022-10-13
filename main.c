@@ -167,7 +167,7 @@ int main()
                 switch (World.buffer[i])
                 {
                 case -1:
-                    putchar('@');
+                    putchar('%');
                     if (Force.x != 0 || Force.y != 0)
                         World.buffer[i] = 5;
                     break;
