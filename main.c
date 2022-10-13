@@ -80,7 +80,7 @@ int main()
 
     isGameRun = True;
 
-    World.width = 10;
+    World.width = 20;
     World.height = 20;
     World.size = World.width * World.height;
     World.buffer = (char *)malloc(sizeof(char) * World.size);
@@ -95,7 +95,7 @@ int main()
     while (isGameRun)
     {
         printf("\x1b[H");
-        //memset(World.buffer, 0, World.size);
+        // memset(World.buffer, 0, World.size);
 
         char c = '\0';
         read(STDIN_FILENO, &c, 1);
@@ -122,25 +122,6 @@ int main()
             Force.x = 0;
             break;
 
-        case '\0':
-            x = Player.x;
-            y = Player.y;
-
-            Player.x += Force.x;
-            Player.y += Force.y;
-
-            if (!(1 <= Player.x && Player.x < World.width))
-            {
-                Player.x = x;
-            }
-
-            if (!(0 <= Player.y && Player.y < World.height))
-            {
-                Player.y = y;
-            }
-
-            break;
-
         case 'q':
             isGameRun = False;
             break;
@@ -149,7 +130,34 @@ int main()
             break;
         }
 
-        World.buffer[Player.y * World.width + Player.x] = -1;
+
+        x = Player.x;
+        y = Player.y;
+
+        Player.x += Force.x;
+        Player.y += Force.y;
+
+        if (!(1 <= Player.x && Player.x < World.width))
+        {
+            Player.x = x;
+        }
+
+        if (!(0 <= Player.y && Player.y < World.height))
+        {
+            Player.y = y;
+        }
+
+
+        if (World.buffer[Player.y * World.width + Player.x] <= 0)
+        {
+            World.buffer[Player.y * World.width + Player.x] = -1;
+        }
+        else
+        {
+            printf("Break! %d", World.buffer[Player.y * World.width + Player.x]);
+            isGameRun = False;
+            break;
+        }
 
         for (int i = 0; i < World.size; i++)
         {
@@ -159,12 +167,14 @@ int main()
                 {
                 case -1:
                     putchar('@');
-                    World.buffer[i] = 5;
+                    if (Force.x != 0 || Force.y != 0)
+                        World.buffer[i] = 5;
                     break;
                 case 0:
                     putchar(' ');
                     break;
                 default:
+                    // printf("%d", i);
                     putchar('*');
                     World.buffer[i]--;
                     break;
@@ -176,7 +186,7 @@ int main()
         printf("\r\nx: %03d y: %03d", Player.x, Player.y);
     }
 
-    printf("\x1b[H");
+    // printf("\x1b[H");
 
     RawMode(Disable);
 
