@@ -11,7 +11,7 @@
 ## World
 기본 크기는 10x10 입니다.
 
-main.c 86번째 줄을 통해 수정할수 있습니다.
+[main.c 86번째 줄](https://github.com/blackkong8/snake/blob/549fabadddbc13f1023d75a59a1d72b075b73127/main.c#L86)을 통해 수정할수 있습니다.
 ```
 World = (struct world){10, 10, 10*10};
 ```
