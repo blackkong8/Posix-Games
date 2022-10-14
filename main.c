@@ -166,7 +166,7 @@ void Render()
                     World.buffer[i] = score;
                 break;
             case 0:
-                putchar(' ');
+                putchar('_');
                 break;
             default:
                 putchar('*');
