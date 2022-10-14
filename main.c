@@ -192,9 +192,9 @@ int main()
             else
                 printf("\r\n");
         }
-        printf("\r\nx: %03d y: %03d", Player.x, Player.y);
-        printf("\r\nx: %03d y: %03d", Apple.x, Apple.y);
-        printf("\r\nScore:\t%d", score);
+        printf("\r\nPlayer\tx: %03d y: %03d", Player.x, Player.y);
+        printf("\r\nApple\tx: %03d y: %03d", Apple.x, Apple.y);
+        printf("\r\nScore\t%d", score);
     }
 
     printf("\x1b[H");
