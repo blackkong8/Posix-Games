@@ -138,7 +138,7 @@ void Update()
         if (World.buffer[Player.y * World.width + Player.x] == -2)
         {
             score += 1;
-            Apple = (struct vector2){rand() % World.height + 1, rand() % World.width};
+            Apple = (struct vector2){rand() % (World.height - 2) + 1, rand() % World.width};
             World.buffer[Apple.y * World.width + Apple.x] = -2;
         }
         World.buffer[Player.y * World.width + Player.x] = -1;
