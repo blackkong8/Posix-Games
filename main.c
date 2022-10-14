@@ -220,6 +220,8 @@ int main()
 
     // printf("\x1b[H");
 
+    sleep(1);
+
     RawMode(Disable);
 
     // printf("Score:\t%d\n", score);
