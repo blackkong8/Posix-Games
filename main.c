@@ -33,6 +33,7 @@ struct termios orig_termios;
 struct world World;
 struct vector2 Player;
 struct vector2 Force;
+struct vector2 Apple;
 
 bool isGameRun;
 
@@ -82,13 +83,14 @@ int main()
 
     int score = 0;
 
-    World.width = 20;
-    World.height = 20;
-    World.size = World.width * World.height;
+    World = (struct world){10, 10, 10*10};
     World.buffer = (char *)malloc(sizeof(char) * World.size);
     memset(World.buffer, 0, World.size);
 
     Player = (struct vector2){1, 0};
+    Apple = (struct vector2){rand() % World.height + 1, rand() % World.width};
+
+    World.buffer[Apple.y * World.width + Apple.x] = -2;
 
     printf("\x1b[2J");
 
@@ -132,7 +134,6 @@ int main()
             break;
         }
 
-
         x = Player.x;
         y = Player.y;
 
@@ -149,9 +150,14 @@ int main()
             Player.y = y;
         }
 
-
         if (World.buffer[Player.y * World.width + Player.x] <= 0)
         {
+            if (World.buffer[Player.y * World.width + Player.x] == -2)
+            {
+                score += 1;
+                Apple = (struct vector2){rand() % World.height + 1, rand() % World.width};
+                World.buffer[Apple.y * World.width + Apple.x] = -2;
+            }
             World.buffer[Player.y * World.width + Player.x] = -1;
         }
         else
@@ -166,10 +172,13 @@ int main()
             {
                 switch (World.buffer[i])
                 {
+                case -2:
+                    putchar('@');
+                    break;
                 case -1:
                     putchar('%');
                     if (Force.x != 0 || Force.y != 0)
-                        World.buffer[i] = 5;
+                        World.buffer[i] = score;
                     break;
                 case 0:
                     putchar(' ');
@@ -184,13 +193,15 @@ int main()
                 printf("\r\n");
         }
         printf("\r\nx: %03d y: %03d", Player.x, Player.y);
+        printf("\r\nx: %03d y: %03d", Apple.x, Apple.y);
+        printf("\r\nScore:\t%d", score);
     }
 
     printf("\x1b[H");
 
-    printf("Score:\t%d\n", score);
-
     RawMode(Disable);
+
+    printf("Score:\t%d\n", score);
 
     return 0;
 }
