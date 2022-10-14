@@ -220,6 +220,8 @@ int main()
 
     // printf("\x1b[H");
 
+    printf("Game Over!\r\n");
+
     sleep(1);
 
     RawMode(Disable);
