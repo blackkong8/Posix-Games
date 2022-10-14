@@ -190,7 +190,7 @@ int main()
     memset(World.buffer, 0, World.size);
 
     Player = (struct vector2){1, 0};
-    Apple = (struct vector2){rand() % World.height + 1, rand() % World.width};
+    Apple = (struct vector2){rand() % (World.height - 2) + 1, rand() % World.width};
 
     World.buffer[Apple.y * World.width + Apple.x] = -2;
 
