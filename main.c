@@ -35,6 +35,8 @@ struct vector2 Player;
 struct vector2 Force;
 struct vector2 Apple;
 
+int score;
+
 bool isGameRun;
 
 void RawMode(state State)
@@ -75,15 +77,115 @@ void RawMode(state State)
     }
 }
 
-int main()
+void HandleInput()
+{
+    char c = '\0';
+    read(STDIN_FILENO, &c, 1);
+
+    switch (c)
+    {
+    case 'a':
+        Force.x = -1;
+        Force.y = 0;
+        break;
+
+    case 'd':
+        Force.x = 1;
+        Force.y = 0;
+        break;
+
+    case 'w':
+        Force.y = -1;
+        Force.x = 0;
+        break;
+
+    case 's':
+        Force.y = 1;
+        Force.x = 0;
+        break;
+
+    case 'q':
+        isGameRun = False;
+        break;
+
+    default:
+        break;
+    }
+}
+
+void Update()
 {
     int x, y;
 
+    x = Player.x;
+    y = Player.y;
+
+    Player.x += Force.x;
+    Player.y += Force.y;
+
+    if (!(1 <= Player.x && Player.x < World.width))
+    {
+        Player.x = x;
+    }
+
+    if (!(0 <= Player.y && Player.y < World.height))
+    {
+        Player.y = y;
+    }
+
+    if (World.buffer[Player.y * World.width + Player.x] <= 0)
+    {
+        if (World.buffer[Player.y * World.width + Player.x] == -2)
+        {
+            score += 1;
+            Apple = (struct vector2){rand() % World.height + 1, rand() % World.width};
+            World.buffer[Apple.y * World.width + Apple.x] = -2;
+        }
+        World.buffer[Player.y * World.width + Player.x] = -1;
+    }
+    else
+    {
+        isGameRun = False;
+    }
+}
+
+void Render()
+{
+    for (int i = 0; i < World.size; i++)
+    {
+        if (i % World.width)
+        {
+            switch (World.buffer[i])
+            {
+            case -2:
+                putchar('@');
+                break;
+            case -1:
+                putchar('%');
+                if (Force.x != 0 || Force.y != 0)
+                    World.buffer[i] = score;
+                break;
+            case 0:
+                putchar(' ');
+                break;
+            default:
+                putchar('*');
+                World.buffer[i]--;
+                break;
+            }
+            putchar(' ');
+        }
+        else
+            printf("\r\n");
+    }
+}
+
+int main()
+{
     isGameRun = True;
+    score = 0;
 
-    int score = 0;
-
-    World = (struct world){10, 10, 10*10};
+    World = (struct world){10, 10, 10 * 10};
     World.buffer = (char *)malloc(sizeof(char) * World.size);
     memset(World.buffer, 0, World.size);
 
@@ -101,107 +203,26 @@ int main()
         printf("\x1b[H");
         // memset(World.buffer, 0, World.size);
 
-        char c = '\0';
-        read(STDIN_FILENO, &c, 1);
+        // handle input
+        HandleInput();
 
-        switch (c)
-        {
-        case 'a':
-            Force.x = -1;
-            Force.y = 0;
-            break;
+        // update
+        Update();
 
-        case 'd':
-            Force.x = 1;
-            Force.y = 0;
-            break;
+        // render
+        Render();
 
-        case 'w':
-            Force.y = -1;
-            Force.x = 0;
-            break;
-
-        case 's':
-            Force.y = 1;
-            Force.x = 0;
-            break;
-
-        case 'q':
-            isGameRun = False;
-            break;
-
-        default:
-            break;
-        }
-
-        x = Player.x;
-        y = Player.y;
-
-        Player.x += Force.x;
-        Player.y += Force.y;
-
-        if (!(1 <= Player.x && Player.x < World.width))
-        {
-            Player.x = x;
-        }
-
-        if (!(0 <= Player.y && Player.y < World.height))
-        {
-            Player.y = y;
-        }
-
-        if (World.buffer[Player.y * World.width + Player.x] <= 0)
-        {
-            if (World.buffer[Player.y * World.width + Player.x] == -2)
-            {
-                score += 1;
-                Apple = (struct vector2){rand() % World.height + 1, rand() % World.width};
-                World.buffer[Apple.y * World.width + Apple.x] = -2;
-            }
-            World.buffer[Player.y * World.width + Player.x] = -1;
-        }
-        else
-        {
-            isGameRun = False;
-            break;
-        }
-
-        for (int i = 0; i < World.size; i++)
-        {
-            if (i % World.width)
-            {
-                switch (World.buffer[i])
-                {
-                case -2:
-                    putchar('@');
-                    break;
-                case -1:
-                    putchar('%');
-                    if (Force.x != 0 || Force.y != 0)
-                        World.buffer[i] = score;
-                    break;
-                case 0:
-                    putchar(' ');
-                    break;
-                default:
-                    putchar('*');
-                    World.buffer[i]--;
-                    break;
-                }
-            }
-            else
-                printf("\r\n");
-        }
         printf("\r\nPlayer\tx: %02d y: %02d", Player.x, Player.y);
         printf("\r\nApple\tx: %02d y: %02d", Apple.x, Apple.y);
         printf("\r\nScore\t%d", score);
+        printf("\r\n");
     }
 
-    printf("\x1b[H");
+    // printf("\x1b[H");
 
     RawMode(Disable);
 
-    printf("Score:\t%d\n", score);
+    // printf("Score:\t%d\n", score);
 
     return 0;
 }
