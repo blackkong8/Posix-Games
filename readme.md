@@ -1,6 +1,5 @@
 # Posix에서 동작하는 Snake 게임
 ## includes
-* <sys/ioctl.h>
 * <termios.h>
 * <stdlib.h>
 * <unistd.h>
