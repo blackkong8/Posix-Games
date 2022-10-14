@@ -16,3 +16,5 @@ main.c 86번째 줄을 통해 수정할수 있습니다.
 World = (struct world){10, 10, 10*10};
 ```
 구조는 ```{가로, 세로, 가로 * 세로}```와 같습니다.
+## 인게임 스크린샷
+![screenshot](https://github.com/blackkong8/snake/blob/master/screenshot.png?raw=true)
