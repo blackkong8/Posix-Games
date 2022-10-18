@@ -187,7 +187,8 @@ int main()
     isGameRun = True;
     score = 0;
 
-    World = (struct world){10, 10, 10 * 10};
+    World = (struct world){10, 10};
+    World.size = World.height * World.width;
     World.buffer = (char *)malloc(sizeof(char) * World.size);
     memset(World.buffer, 0, World.size);
 

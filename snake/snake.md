@@ -12,8 +12,8 @@
 
 [main.c 190번째 줄](https://github.com/blackkong8/Posix-Games/blob/b584dd9b1fdae8f7952e64d7507d8cd597cd61e0/snake/main.c#L190)을 통해 수정할수 있습니다.
 ```
-World = (struct world){10, 10, 10*10};
+World = (struct world){10, 10};
 ```
-구조는 ```{가로, 세로, 가로 * 세로}```와 같습니다.
+구조는 ```{가로, 세로}```입니다.
 ## 인게임 스크린샷
 ![screenshot](https://github.com/blackkong8/Posix-Games/blob/master/snake/screenshot.png?raw=true)
