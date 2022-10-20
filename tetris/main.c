@@ -7,9 +7,24 @@ typedef enum
 
 bool isGameRun;
 
+
+
+void ClearScreen()
+{
+    printf("\x1b[H");
+}
+
+void ScrollScreen()
+{
+    printf("\x1b[2J");
+}
+
 void Init()
 {
     isGameRun = True;
+
+    ScrollScreen();
+    ClearScreen();
 }
 
 void HandleInput()
