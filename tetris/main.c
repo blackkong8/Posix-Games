@@ -1,3 +1,5 @@
+#include <termios.h>
+#include <unistd.h>
 
 typedef enum
 {
@@ -5,9 +7,39 @@ typedef enum
     True
 } bool;
 
+typedef enum
+{
+    Disable,
+    Enable
+} state;
+
 bool isGameRun;
 
+struct termios orig_termios;
 
+void RawMode(state State)
+{
+    switch (State)
+    {
+    case Disable:
+        tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
+        break;
+    case Enable:
+        // Init
+        tcgetattr(STDIN_FILENO, &orig_termios);
+        struct termios raw = orig_termios;
+        // Set Flags
+        raw.c_iflag &= ~(ICRNL | IXON | BRKINT | INPCK | ISTRIP);
+        raw.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
+        raw.c_oflag &= ~(OPOST);
+        raw.c_cflag |= (CS8);
+        raw.c_cc[VTIME] = 2;
+        raw.c_cc[VMIN] = 0;
+        // Set Raw Mode
+        tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
+        break;
+    }
+}
 
 void ClearScreen()
 {
@@ -22,6 +54,8 @@ void ScrollScreen()
 void Init()
 {
     isGameRun = True;
+
+    RawMode(Enable);
 
     ScrollScreen();
     ClearScreen();
@@ -41,6 +75,7 @@ void Render()
 
 void Exit()
 {
+    RawMode(Disable);
 }
 
 int main()
