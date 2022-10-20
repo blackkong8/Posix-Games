@@ -149,6 +149,14 @@ void Update()
     {
         isGameRun = False;
     }
+
+    for (int i = 0; i < World.size; i++)
+    {
+        if (i % World.width && World.buffer[i] > 0)
+        {
+            World.buffer[i]--;
+        }
+    }
 }
 
 void Render()
@@ -172,7 +180,7 @@ void Render()
                 break;
             default:
                 putchar('*');
-                World.buffer[i]--;
+                // World.buffer[i]--;
                 break;
             }
             putchar(' ');
@@ -185,7 +193,7 @@ void Render()
 int main()
 {
     isGameRun = True;
-    score = 0;
+    score = 1;
 
     World = (struct world){10, 10};
     World.size = World.height * World.width;
