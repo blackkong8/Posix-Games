@@ -63,6 +63,17 @@ void Init()
 
 void HandleInput()
 {
+    char c = '\0';
+    read(STDIN_FILENO, &c, 1);
+
+    switch (c)
+    {
+    case 'q':
+        isGameRun = False;
+        break;
+    default:
+        break;
+    }
 }
 
 void Update()
