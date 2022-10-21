@@ -1,17 +1,17 @@
 #include <termios.h>
 #include <unistd.h>
 
-typedef struct
+struct world
 {
     int width, height;
     int size;
     char *buffer;
-} world;
+};
 
-typedef struct
+struct block
 {
     char *shape;
-} block;
+};
 
 typedef enum
 {
