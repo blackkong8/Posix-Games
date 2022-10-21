@@ -1,6 +1,11 @@
 #include <termios.h>
 #include <unistd.h>
 
+typedef struct
+{
+    char *shape;
+} block;
+
 typedef enum
 {
     False,
