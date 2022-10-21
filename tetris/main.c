@@ -28,6 +28,7 @@ typedef enum
 bool isGameRun;
 
 struct termios orig_termios;
+struct world MainWorld;
 
 void RawMode(state State)
 {
