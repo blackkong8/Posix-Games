@@ -3,6 +3,13 @@
 
 typedef struct
 {
+    int width, height;
+    int size;
+    char *buffer;
+} world;
+
+typedef struct
+{
     char *shape;
 } block;
 
