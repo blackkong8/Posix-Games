@@ -1,5 +1,6 @@
 #include <termios.h>
 #include <unistd.h>
+#include <stdio.h>
 
 struct world
 {
@@ -95,6 +96,17 @@ void Update()
 
 void Render()
 {
+    for (int i = 0; i < MainWorld.size; i++)
+    {
+        if (i % MainWorld.width)
+        {
+            putchar(MainWorld.buffer[i]);
+        }
+        else
+        {
+            putchar(10);
+        }
+    }
 }
 
 void Exit()
