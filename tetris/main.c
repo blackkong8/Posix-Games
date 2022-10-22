@@ -28,6 +28,8 @@ typedef enum
 
 bool isGameRun;
 
+char NullCode = '\0';
+
 struct termios orig_termios;
 struct world MainWorld;
 
@@ -92,6 +94,20 @@ void HandleInput()
 
 void Update()
 {
+    for (int i = 0; i < MainWorld.size; i++)
+    {
+        if (i % MainWorld.width)
+        {
+            if (MainWorld.buffer[i] != NullCode && (int)(i / MainWorld.size) == MainWorld.height)
+            {
+                MainWorld.buffer[i + MainWorld.width] = MainWorld.buffer[i];
+                MainWorld.buffer[i] = NullCode;
+            }
+        }
+        else
+        {
+        }
+    }
 }
 
 void Render()
