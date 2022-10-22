@@ -1,6 +1,8 @@
 #include <termios.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 struct world
 {
@@ -28,7 +30,7 @@ typedef enum
 
 bool isGameRun;
 
-char NullCode = '\0';
+char NullCode = ' ';
 
 struct termios orig_termios;
 struct world MainWorld;
@@ -71,6 +73,13 @@ void Init()
 {
     isGameRun = True;
 
+    MainWorld = (struct world){10, 10};
+
+    MainWorld.size = MainWorld.width * MainWorld.height;
+    MainWorld.buffer = (char *)malloc(sizeof(char) * MainWorld.size);
+
+    memset(MainWorld.buffer, '@', MainWorld.width);
+
     RawMode(Enable);
 
     ScrollScreen();
@@ -94,24 +103,29 @@ void HandleInput()
 
 void Update()
 {
+    char *SubBuff;
+    SubBuff = (char *)malloc(sizeof(char) * MainWorld.size);
+    memset(SubBuff, NullCode, MainWorld.size);
     for (int i = 0; i < MainWorld.size; i++)
     {
         if (i % MainWorld.width)
         {
-            if (MainWorld.buffer[i] != NullCode && (int)(i / MainWorld.size) == MainWorld.height)
+            if (MainWorld.buffer[i] != NullCode)
             {
-                MainWorld.buffer[i + MainWorld.width] = MainWorld.buffer[i];
-                MainWorld.buffer[i] = NullCode;
+                SubBuff[i + MainWorld.width] = MainWorld.buffer[i];
             }
         }
         else
         {
         }
     }
+    free(MainWorld.buffer);
+    MainWorld.buffer = SubBuff;
 }
 
 void Render()
 {
+    ClearScreen();
     for (int i = 0; i < MainWorld.size; i++)
     {
         if (i % MainWorld.width)
@@ -120,7 +134,7 @@ void Render()
         }
         else
         {
-            putchar(10);
+            printf("\r\n");
         }
     }
 }
