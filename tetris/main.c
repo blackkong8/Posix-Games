@@ -77,6 +77,7 @@ void Init()
 
     MainWorld.size = MainWorld.width * MainWorld.height;
     MainWorld.buffer = (char *)malloc(sizeof(char) * MainWorld.size);
+    memset(MainWorld.buffer, NullCode, MainWorld.size);
 
     memset(MainWorld.buffer, '@', MainWorld.width);
 
@@ -110,7 +111,9 @@ void Update()
     {
         if (i % MainWorld.width)
         {
-            if (MainWorld.buffer[i] != NullCode)
+            if (MainWorld.buffer[i] != NullCode &&
+                (int)(i / MainWorld.height) < MainWorld.height &&
+                MainWorld.buffer[i + MainWorld.width] == NullCode)
             {
                 SubBuff[i + MainWorld.width] = MainWorld.buffer[i];
             }
